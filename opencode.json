@@ -12,6 +12,18 @@
         "GITHUB_TOKEN_ENCRYPTED": "v1:zCXt3yLKDGli1tPqUeiIJrpbiCyrDdRXUwB8DNjZwAm7kL9zWY5RTQYilz33VgRA2XiERYDIuZ3TRPBbArh2VwVIZoiARFA0kMX3fQaYlhDskOjN",
         "OPENCODE_PASSPHRASE": "${OPENCODE_PASSPHRASE}"
       }
+    },
+    "browser": {
+      "type": "local",
+      "command": [
+        "node",
+        "./connectors/browser/dist/index.js"
+      ],
+      "enabled": true,
+      "environment": {
+        "BROWSER_CHANNEL": "chrome",
+        "BROWSER_HEADLESS": "true"
+      }
     }
   }
 }
