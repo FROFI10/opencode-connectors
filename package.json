@@ -9,6 +9,7 @@
   "scripts": {
     "build": "npm run build --workspaces --if-present",
     "typecheck": "tsc -b",
+    "encrypt-token": "npm run encrypt-token --workspace=connectors/github",
     "clean": "npm run clean --workspaces --if-present"
   },
   "devDependencies": {

@@ -13,6 +13,7 @@
   },
   "files": [],
   "references": [
-    { "path": "./connectors/_template" }
+    { "path": "./connectors/_template" },
+    { "path": "./connectors/github" }
   ]
 }

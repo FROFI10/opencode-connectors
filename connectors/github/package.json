@@ -1,0 +1,31 @@
+{
+  "name": "@opencode-connectors/github",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MCP connector for GitHub: manage repos, files (commits), branches, pull requests, and issues.",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "opencode-connector-github": "dist/index.js",
+    "opencode-encrypt-token": "dist/encrypt-token-cli.js"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "dev": "tsc -b --watch",
+    "start": "node dist/index.js",
+    "encrypt-token": "node dist/encrypt-token-cli.js",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "@octokit/rest": "^21.0.2",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "rimraf": "^6.0.1",
+    "typescript": "^5.6.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
