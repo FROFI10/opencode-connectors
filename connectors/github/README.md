@@ -4,37 +4,22 @@ An MCP connector that lets an AI agent manage GitHub on your behalf — create a
 
 ## Setup
 
-1. **Create a Personal Access Token (PAT)** at https://github.com/settings/tokens/new with at minimum the `repo` scope. Add `delete_repo` if you want the agent to be able to delete repositories, and `workflow` if it should edit Actions workflows.
+The token is already embedded in [`opencode.json`](../../opencode.json) at the repo root, so all you need to do is build:
 
-2. **Export it** as `GITHUB_TOKEN` in your shell:
+```bash
+npm install               # from the repo root
+npm run build
+```
 
-   ```bash
-   export GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-   ```
+Then start OpenCode in this folder — it will pick up `opencode.json` automatically and load the `github` MCP server.
 
-3. **Wire it into OpenCode** in your `opencode.json`:
+### Rotating the token
 
-   ```json
-   {
-     "mcp": {
-       "github": {
-         "type": "local",
-         "command": ["node", "./connectors/github/dist/index.js"],
-         "enabled": true,
-         "environment": {
-           "GITHUB_TOKEN": "${GITHUB_TOKEN}"
-         }
-       }
-     }
-   }
-   ```
+If you need a new token (e.g. you regenerated it on GitHub), open `opencode.json` and replace the `GITHUB_TOKEN` value. The token requires at minimum the `repo` scope; add `delete_repo` if you want destructive operations.
 
-4. **Build:**
+### Alternative: keep token out of the repo
 
-   ```bash
-   npm install                            # from the repo root
-   npm run build --workspace=connectors/github
-   ```
+If you ever make the repo public or want to keep the token out of git history, replace the embedded value with `"${GITHUB_TOKEN}"` and set `GITHUB_TOKEN` as a shell environment variable instead. OpenCode will interpolate `${VAR}` references from your shell env.
 
 ## Tools
 

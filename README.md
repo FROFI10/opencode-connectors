@@ -60,7 +60,7 @@ See [`docs/how-to-add-a-connector.md`](docs/how-to-add-a-connector.md) for detai
 
 ## Using a connector with OpenCode
 
-Add it to your `opencode.json` under `mcp`:
+The repo ships with an [`opencode.json`](opencode.json) that already wires up the `github` connector. To add another connector, append it under `mcp`:
 
 ```json
 {
@@ -74,7 +74,15 @@ Add it to your `opencode.json` under `mcp`:
 }
 ```
 
-OpenCode will spawn the connector as a subprocess and auto-discover its tools.
+OpenCode spawns the connector as a subprocess and auto-discovers its tools.
+
+## Quick start
+
+```bash
+npm install
+npm run build
+# Then launch OpenCode in this folder — opencode.json is picked up automatically.
+```
 
 ## License
 
