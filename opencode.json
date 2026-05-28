@@ -3,10 +3,14 @@
   "mcp": {
     "github": {
       "type": "local",
-      "command": ["node", "./connectors/github/dist/index.js"],
+      "command": [
+        "node",
+        "./connectors/github/dist/index.js"
+      ],
       "enabled": true,
       "environment": {
-        "GITHUB_TOKEN": "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"
+        "GITHUB_TOKEN_ENCRYPTED": "v1:zCXt3yLKDGli1tPqUeiIJrpbiCyrDdRXUwB8DNjZwAm7kL9zWY5RTQYilz33VgRA2XiERYDIuZ3TRPBbArh2VwVIZoiARFA0kMX3fQaYlhDskOjN",
+        "OPENCODE_PASSPHRASE": "${OPENCODE_PASSPHRASE}"
       }
     }
   }

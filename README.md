@@ -78,11 +78,26 @@ OpenCode spawns the connector as a subprocess and auto-discovers its tools.
 
 ## Quick start
 
+The repo ships with `opencode.json` configured to use the `github` connector with an **encrypted GitHub token**. The token is decrypted at runtime using a master passphrase you provide via `OPENCODE_PASSPHRASE` — the passphrase never lives in the repo.
+
+The fastest way to get going on Windows:
+
+```powershell
+./setup.ps1
+```
+
+That installs deps, builds, prompts for the master passphrase, and (optionally) saves it to your PowerShell profile.
+
+Or do it manually:
+
 ```bash
 npm install
 npm run build
-# Then launch OpenCode in this folder — opencode.json is picked up automatically.
+export OPENCODE_PASSPHRASE="your-master-passphrase"   # or $env:OPENCODE_PASSPHRASE in PowerShell
+# Then launch OpenCode in this folder.
 ```
+
+See [`connectors/github/README.md`](connectors/github/README.md) for token-management details.
 
 ## License
 

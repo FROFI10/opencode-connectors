@@ -6,18 +6,29 @@
  * manage repositories, commit files, work with branches, open and merge PRs,
  * and work with issues on the user's behalf.
  *
- * Reads the token from process.env.GITHUB_TOKEN. Token requires at least the
- * `repo` scope; add `delete_repo` for repository deletion.
+ * Token resolution (see crypto.ts):
+ *   - GITHUB_TOKEN_ENCRYPTED + OPENCODE_PASSPHRASE → decrypt at startup
+ *   - GITHUB_TOKEN → use as-is
+ *
+ * The token requires at least the `repo` scope; add `delete_repo` for
+ * repository deletion.
  */
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { Octokit } from "@octokit/rest";
 import { z } from "zod";
+import { resolveToken } from "./crypto.js";
 
-const token = process.env.GITHUB_TOKEN;
-if (!token) {
+let token: string;
+let tokenSource: string;
+try {
+  const resolved = resolveToken(process.env);
+  token = resolved.token;
+  tokenSource = resolved.source;
+} catch (err) {
+  console.error((err as Error).message);
   console.error(
-    "GITHUB_TOKEN is not set. Create a PAT at https://github.com/settings/tokens/new (scope: repo) and export it as GITHUB_TOKEN.",
+    "Hint: create a PAT at https://github.com/settings/tokens/new (scope: repo).",
   );
   process.exit(1);
 }
@@ -499,7 +510,9 @@ server.tool(
 async function main(): Promise<void> {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error("github-connector MCP server running on stdio");
+  console.error(
+    `github-connector MCP server running on stdio (token from ${tokenSource})`,
+  );
 }
 
 main().catch((err) => {

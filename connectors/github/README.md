@@ -4,22 +4,57 @@ An MCP connector that lets an AI agent manage GitHub on your behalf — create a
 
 ## Setup
 
-The token is already embedded in [`opencode.json`](../../opencode.json) at the repo root, so all you need to do is build:
+The token in [`opencode.json`](../../opencode.json) at the repo root is **encrypted** with a master passphrase (AES-256-GCM, scrypt KDF). The connector decrypts it at startup using the `OPENCODE_PASSPHRASE` environment variable.
+
+### Fast path — `setup.ps1`
+
+From the repo root, run:
+
+```powershell
+./setup.ps1
+```
+
+It installs deps, builds, prompts for the master passphrase, optionally saves it to your PowerShell profile, and verifies the token decrypts. After that, OpenCode in this folder will just work.
+
+### Manual path
 
 ```bash
-npm install               # from the repo root
+npm install
 npm run build
 ```
 
-Then start OpenCode in this folder — it will pick up `opencode.json` automatically and load the `github` MCP server.
+Then set the passphrase in your shell each session (or in your PowerShell profile / `.bashrc` to make it permanent):
 
-### Rotating the token
+```powershell
+$env:OPENCODE_PASSPHRASE = "your-master-passphrase"
+```
 
-If you need a new token (e.g. you regenerated it on GitHub), open `opencode.json` and replace the `GITHUB_TOKEN` value. The token requires at minimum the `repo` scope; add `delete_repo` if you want destructive operations.
+```bash
+export OPENCODE_PASSPHRASE="your-master-passphrase"
+```
 
-### Alternative: keep token out of the repo
+Then start OpenCode in this folder — it picks up `opencode.json` automatically.
 
-If you ever make the repo public or want to keep the token out of git history, replace the embedded value with `"${GITHUB_TOKEN}"` and set `GITHUB_TOKEN` as a shell environment variable instead. OpenCode will interpolate `${VAR}` references from your shell env.
+## Token modes
+
+The connector supports two ways to provide the token, checked in this order:
+
+1. **Encrypted (recommended).** `GITHUB_TOKEN_ENCRYPTED` + `OPENCODE_PASSPHRASE` — the encrypted blob lives in `opencode.json` (safe to commit), the passphrase lives only in your environment.
+2. **Plaintext.** `GITHUB_TOKEN` — straightforward but the token is in cleartext wherever you set it.
+
+If `GITHUB_TOKEN_ENCRYPTED` is set, `GITHUB_TOKEN` is ignored.
+
+### Rotating or re-encrypting the token
+
+If you need to put a new token in (e.g. you regenerated the PAT on GitHub):
+
+```bash
+npm run encrypt-token
+```
+
+It prompts (masked) for the new token and your master passphrase, and prints the encrypted string. Paste it into `opencode.json` under `mcp.github.environment.GITHUB_TOKEN_ENCRYPTED`.
+
+If you want a fresh master passphrase too, just use a new one when prompted — the script doesn't care about the old one.
 
 ## Tools
 
