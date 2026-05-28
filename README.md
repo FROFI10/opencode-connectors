@@ -2,7 +2,13 @@
 
 A collection of connectors (tools / plugins) for [OpenCode](https://opencode.ai) and other AI agents that speak the [Model Context Protocol (MCP)](https://modelcontextprotocol.io).
 
-> **Status:** scaffold only — no connectors implemented yet. Use `connectors/_template` as a starting point when you add a new one.
+> **Status:** scaffold + one connector (`github`). Use `connectors/_template` as a starting point when you add a new one.
+
+## Available connectors
+
+| Name | Description |
+|------|-------------|
+| [`github`](connectors/github/) | Manage GitHub on your behalf: create/delete repos, commit files, manage branches, open and merge PRs, work with issues. |
 
 ## What is a connector?
 
@@ -21,11 +27,12 @@ Most modern agents speak MCP, so a connector here is implemented as a small MCP 
 ```
 opencode-connectors/
 ├── connectors/
-│   └── _template/           # Copy this folder to start a new connector
-│       ├── src/index.ts     # MCP server entry point
-│       ├── package.json
-│       ├── tsconfig.json
-│       └── README.md
+│   ├── _template/           # Copy this folder to start a new connector
+│   │   ├── src/index.ts     # MCP server entry point
+│   │   ├── package.json
+│   │   ├── tsconfig.json
+│   │   └── README.md
+│   └── github/              # GitHub connector
 ├── docs/
 │   ├── what-are-connectors.md
 │   └── how-to-add-a-connector.md
