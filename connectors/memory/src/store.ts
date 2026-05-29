@@ -52,14 +52,16 @@ async function getEmbedder(): Promise<(text: string) => Promise<Float32Array>> {
     if (process.env.MEMORY_MODEL_CACHE) {
       tx.env.cacheDir = process.env.MEMORY_MODEL_CACHE;
     }
-    const pipe = await tx.pipeline(
-      "feature-extraction",
-      "Xenova/all-MiniLM-L6-v2",
-    );
+    const model =
+      process.env.MEMORY_EMBEDDING_MODEL || "Xenova/all-MiniLM-L6-v2";
+    const pipe = await tx.pipeline("feature-extraction", model);
     return async (text: string) => {
       const out = await pipe(text, { pooling: "mean", normalize: true });
-      // out.data is a Float32Array of length 384.
-      return new Float32Array(out.data);
+      // out.data is typed as DataArray (a TypedArray union). For
+      // feature-extraction with normalize:true it's always Float32Array; copy
+      // into a fresh Float32Array via the underlying buffer to satisfy types.
+      const src = out.data as unknown as Float32Array;
+      return new Float32Array(src);
     };
   })();
   return embedderPromise;

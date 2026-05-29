@@ -25,6 +25,7 @@ The embedding model (~25 MB) downloads on first use of `remember` or `recall` an
 |---|---|---|
 | `MEMORY_DB_PATH` | `~/.opencode-connectors/memory.db` | Where to store the SQLite database. |
 | `MEMORY_MODEL_CACHE` | platform default | Where to cache the embedding model. |
+| `MEMORY_EMBEDDING_MODEL` | `Xenova/all-MiniLM-L6-v2` | Which sentence-transformer to load. For non-English content set `Xenova/paraphrase-multilingual-MiniLM-L12-v2` (50+ languages incl. Russian). If you change this on an existing database the old vectors are still 384-dim and will be compared — re-embed by re-creating the DB if scores look off. |
 
 ## Wiring it into OpenCode
 
