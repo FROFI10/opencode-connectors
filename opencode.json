@@ -24,6 +24,14 @@
         "BROWSER_CHANNEL": "chrome",
         "BROWSER_HEADLESS": "true"
       }
+    },
+    "memory": {
+      "type": "local",
+      "command": [
+        "node",
+        "./connectors/memory/dist/index.js"
+      ],
+      "enabled": true
     }
   }
 }

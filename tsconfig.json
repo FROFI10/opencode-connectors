@@ -15,6 +15,7 @@
   "references": [
     { "path": "./connectors/_template" },
     { "path": "./connectors/github" },
-    { "path": "./connectors/browser" }
+    { "path": "./connectors/browser" },
+    { "path": "./connectors/memory" }
   ]
 }

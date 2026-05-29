@@ -1,0 +1,30 @@
+{
+  "name": "@opencode-connectors/memory",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Long-term memory MCP connector. Lets an agent remember and recall facts across sessions using a local SQLite store with offline semantic search (xenova/transformers, all-MiniLM-L6-v2).",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "opencode-connector-memory": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "dev": "tsc -b --watch",
+    "start": "node dist/index.js",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "@xenova/transformers": "^2.17.2",
+    "better-sqlite3": "^11.7.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "rimraf": "^6.0.1",
+    "typescript": "^5.6.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
