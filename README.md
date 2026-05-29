@@ -2,7 +2,7 @@
 
 A collection of connectors (tools / plugins) for [OpenCode](https://opencode.ai) and other AI agents that speak the [Model Context Protocol (MCP)](https://modelcontextprotocol.io).
 
-> **Status:** scaffold + two connectors (`github`, `browser`). Use `connectors/_template` as a starting point when you add a new one.
+> **Status:** scaffold + three connectors (`github`, `browser`, `memory`). Use `connectors/_template` as a starting point when you add a new one.
 
 ## Available connectors
 
@@ -10,6 +10,7 @@ A collection of connectors (tools / plugins) for [OpenCode](https://opencode.ai)
 |------|-------------|
 | [`github`](connectors/github/) | Manage GitHub on your behalf: create/delete repos, commit files, manage branches, open and merge PRs, work with issues. |
 | [`browser`](connectors/browser/) | Drive a real Chromium browser (Playwright + stealth-plugin). Navigate, click, type, screenshot, extract data, persistent login state. |
+| [`memory`](connectors/memory/) | Persistent long-term memory across sessions. Local SQLite + offline semantic search (xenova/transformers, all-MiniLM-L6-v2). |
 
 ## What is a connector?
 
@@ -34,7 +35,8 @@ opencode-connectors/
 │   │   ├── tsconfig.json
 │   │   └── README.md
 │   ├── github/              # GitHub connector
-│   └── browser/             # Stealth browser connector
+│   ├── browser/             # Stealth browser connector
+│   └── memory/              # Long-term memory connector
 ├── docs/
 │   ├── what-are-connectors.md
 │   └── how-to-add-a-connector.md
