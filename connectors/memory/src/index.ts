@@ -161,6 +161,63 @@ server.tool(
   async () => jsonText({ memories: store.exportAll() }),
 );
 
+// Convenience wrapper around `remember` for logging actions the agent just
+// performed. Encourages a consistent tag scheme so later filtering / file
+// history lookups work well. Stored content is intentionally short — full
+// data should live in the filesystem; the memory holds the breadcrumb.
+server.tool(
+  "log_action",
+  "Record that you just did something noteworthy — edited a file, opened a PR, ran a destructive command, made a design decision, etc. " +
+    "Keep `summary` SHORT (one sentence). For file edits, prefer `target=<path>` and put what changed in `summary`. " +
+    "This is a convenience wrapper over `remember` that auto-tags with `action` and `action:<type>` (and `target:<target>` if given) so you can later filter or list file history.",
+  {
+    type: z
+      .string()
+      .min(1)
+      .describe(
+        "Action category. Recommended values: 'file-edit', 'file-create', 'file-delete', 'command', 'decision', 'pr', 'commit', 'bug-fix', 'todo', 'note'.",
+      ),
+    summary: z
+      .string()
+      .min(1)
+      .describe(
+        "One-sentence description of what was done. Be specific. Bad: 'edited file'. Good: 'added dark-mode toggle to Settings.tsx'.",
+      ),
+    target: z
+      .string()
+      .optional()
+      .describe(
+        "What was acted on — a file path, PR number, repo, etc. Optional but strongly recommended.",
+      ),
+    tags: z
+      .array(z.string())
+      .optional()
+      .describe("Extra free-form tags."),
+    importance: z
+      .number()
+      .int()
+      .min(1)
+      .max(5)
+      .optional()
+      .describe("1-5. Default: 3."),
+  },
+  async ({ type, summary, target, tags, importance }) => {
+    const autoTags = ["action", `action:${type}`];
+    if (target) autoTags.push(`target:${target}`);
+    const allTags = Array.from(new Set([...autoTags, ...(tags ?? [])]));
+    const content = target
+      ? `[${type}] ${target}: ${summary}`
+      : `[${type}] ${summary}`;
+    const m = await store.remember(content, allTags, importance ?? 3);
+    return jsonText({
+      id: m.id,
+      logged: true,
+      content,
+      tags: allTags,
+    });
+  },
+);
+
 async function main(): Promise<void> {
   const transport = new StdioServerTransport();
   await server.connect(transport);
