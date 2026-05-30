@@ -38,6 +38,7 @@ opencode-connectors/
 │   ├── browser/             # Stealth browser connector
 │   └── memory/              # Long-term memory connector
 ├── docs/
+│   ├── SYSTEM_PROMPT.md         # Recommended OpenCode system prompt for all 3 connectors
 │   ├── what-are-connectors.md
 │   └── how-to-add-a-connector.md
 ├── package.json             # npm workspace root
@@ -102,6 +103,10 @@ export OPENCODE_PASSPHRASE="your-master-passphrase"   # or $env:OPENCODE_PASSPHR
 ```
 
 See [`connectors/github/README.md`](connectors/github/README.md) for token-management details.
+
+## System prompt
+
+For the connectors to be actually *used* by the agent (and not just be present), paste the recommended system prompt into OpenCode: [`docs/SYSTEM_PROMPT.md`](docs/SYSTEM_PROMPT.md). It tells the agent when to recall memory, when to call GitHub APIs, and when to switch to the browser.
 
 ## License
 
