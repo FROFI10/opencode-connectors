@@ -36,3 +36,5 @@ coverage/
 
 # OpenCode local state
 .opencode/
+smoketest-*.mjs
+.verify.mjs
